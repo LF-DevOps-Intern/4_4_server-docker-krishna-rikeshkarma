@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  nodejs:
+    # Gives link to the Docker image
+    image: rikeshkarma/qno3_nodejs
+    ports:
+      - "3000:3000"
+    networks:
+      - stack
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  reactjs:
+    # Gives link to the Docker image
+    image: rikeshkarma/qno3_reactjs
+    ports:
+      - "4000:4000"
+    networks:
+      - stack
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  nginx: 
+    # Gives link to the Docker image
+    image: rikeshkarma/qno3_nginx
+    networks:
+      - stack
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5000:5000"
+
+# To map the ports of all servies to use the same network
+networks:
+  stack:
+    driver : overlay

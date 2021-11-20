@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  nodejs:
+    # Gives location to the Dockerfile
+    build: 
+      dockerfile: Dockerfile
+      context: ./nodejs
+    # Restarts the container if any errors
+    restart: always
+    # Names our container for this service
+    container_name: nodejs_app
+    # Mapping our local files/ directory from host path to container path
+    volumes:
+      - ./nodejs:/usr/src/app
+    ports:
+      - "3000:3000"
+
+  reactjs:
+    # Gives location to the Dockerfile
+    build: 
+      dockerfile: Dockerfile
+      context: ./reactjs
+    # Restarts the container if any errors
+    restart: always
+    # Names our container for this service
+    container_name: reactjs_app
+    # Mapping our local files/ directory from host path to container path
+    volumes:
+      - ./reactjs:/usr/src/app
+    ports:
+      - "4000:4000"
+
+  nginx: 
+    # Gives location to the Dockerfile
+    build: 
+      dockerfile: Dockerfile
+      context: ./nginx
+    # Restarts the container if any errors
+    restart: always
+    # Names our container for this service
+    container_name: nginx_app
+    # Mapping our local files/ directory from host path to container path
+    volumes:
+      - ./nginx/index.html:/usr/share/nginx/html/index.html
+    ports:
+      - "5000:5000"
+
+# To map the ports of all servies to use the same network
+networks:
+  default:
+    external:
+      name: same
